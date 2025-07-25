@@ -1,0 +1,67 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>DeepL Translator</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
+    <div class="container">
+      <a class="navbar-brand" href="#">Language Translator</a>
+    </div>
+  </nav>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title mb-4">Translate Text</h5>
+            <form method="post">
+              {% csrf_token %}
+              <div class="mb-3">
+                {{ form.text }}
+              </div>
+              <div class="row mb-3">
+                <div class="col">
+                  {{ form.source_lang }}
+                </div>
+                <div class="col">
+                  {{ form.target_lang }}
+                </div>
+              </div>
+              <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary flex-grow-1">Translate</button>
+                <button type="button" id="clear-btn" class="btn btn-outline-secondary flex-grow-1">
+                Clear
+                </button>
+                </div>
+            </form>
+            {% if translation %}
+              <hr>
+              <h6>Result:</h6>
+              <div class="alert alert-success">{{ translation }}</div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+  document.getElementById('clear-btn').addEventListener('click', () => {
+    // 1. Clear the textarea
+    const textarea = document.querySelector('textarea');
+    if (textarea) textarea.value = '';
+
+    // 2. Reset the select fields (optional—you can keep last languages)
+    // document.querySelector('select[name="source_lang"]').selectedIndex = 0;
+    // document.querySelector('select[name="target_lang"]').selectedIndex = 0;
+
+    // 3. Hide or clear the result alert
+    const resultAlert = document.querySelector('.alert-success');
+    if (resultAlert) resultAlert.remove();
+  });
+</script>
+</body>
+</html>
